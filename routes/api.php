@@ -25,8 +25,13 @@ route::group(['prefix'=>'v1'],function(){
     route::get('/restaurant-info/{id}',[GeneralController::class,'info']);
     route::get('/offers',[GeneralController::class,'offers']);
     route::get('/about-app',[GeneralController::class,'about']);
+    route::post('/register-client',[GeneralController::class,'register']);
+    route::post('/login-client',[GeneralController::class,'login']);
+    route::post('/reset-client-password',[GeneralController::class,'resetPassword']);
+    //we need to make function to get emails to reset passwords on the new day
+  // ------------- routes for clients only ------------ //
     route::group(['middleware'=>'auth:client'],function(){
-        route::get('/hello',function(){ 
+    route::get('/hello',function(){ 
             dd("hello");});
 
     });

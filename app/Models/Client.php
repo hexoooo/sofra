@@ -29,5 +29,18 @@ class Client extends Model
     {
         return $this->morphMany('App\Models\NotificationToken', 'tokenable');
     }
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'api_token',
+        'phone',
+        'region_id',
+
+    ];
+    protected $hidden=[
+        'password',
+        'api_token'
+    ];
 
 }
