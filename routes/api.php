@@ -25,4 +25,9 @@ route::group(['prefix'=>'v1'],function(){
     route::get('/restaurant-info/{id}',[GeneralController::class,'info']);
     route::get('/offers',[GeneralController::class,'offers']);
     route::get('/about-app',[GeneralController::class,'about']);
+    route::group(['middleware'=>'auth:client'],function(){
+        route::get('/hello',function(){ 
+            dd("hello");});
+
+    });
 });
