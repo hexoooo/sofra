@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\generalController;
+use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\ClientAuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,14 +26,14 @@ route::group(['prefix'=>'v1'],function(){
     route::get('/restaurant-info/{id}',[GeneralController::class,'info']);
     route::get('/offers',[GeneralController::class,'offers']);
     route::get('/about-app',[GeneralController::class,'about']);
+    //=========== i think this may go to middlewar client============
+    // route::get('/add-product/{id}',[GeneralController::class,'addProduct']);
     route::post('/register-client',[GeneralController::class,'register']);
     route::post('/login-client',[GeneralController::class,'login']);
     route::post('/reset-client-password',[GeneralController::class,'resetPassword']);
-    //we need to make function to get emails to reset passwords on the new day
+    route::post('/set-new-client-password',[GeneralController::class,'setNewPassword']);
   // ------------- routes for clients only ------------ //
     route::group(['middleware'=>'auth:client'],function(){
-    route::get('/hello',function(){ 
-            dd("hello");});
-
+    route::get('make-order',[ClientAuthController::class,'makeOrder']);
     });
 });

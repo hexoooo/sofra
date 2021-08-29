@@ -15,7 +15,8 @@ class CreateClientsTable extends Migration {
 			$table->string('phone');
 			$table->integer('region_id')->unsigned();
 			$table->string('password');
-			$table->string('api_token');
+			$table->string('api_token')->unique();
+			$table->string('reset_password_code')->unique();
 		});
 	}
 

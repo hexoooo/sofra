@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Support\facades\hash;
+use Illuminate\Support\facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use App\Models\Offer;
 use App\Models\Client;
 use App\Models\Setting;
+use App\Models\Order;
 use App\Traits\ApiTrait;
+use App\Mail\ClientReset;
 use App\Http\Resources\restaurants;
 use App\Http\Resources\menu;
 use App\Http\Resources\register;
@@ -41,6 +44,11 @@ class generalController extends Controller
    public function about(){
       return ApiTrait::results('1','done',new settings(setting::first())); 
    } 
+   //============= this one for adding products to order-product table=========
+   // public function addProduct($id ,Request $request){
+   //    order::where('id',$id)->products()->attach($request->product,['quantity'=>$request->quantity,'special_notes'=>$request->notes,'price'=>$request->price]);
+   //    return ApiTrait::results('1','done'); 
+   // } 
     
    public function register(Request $request){
       $validator=validator()->make($request->all(),[
@@ -95,7 +103,17 @@ class generalController extends Controller
               $client=Client::where('email',$request->email)->first();
            
               if($client)
-              {return ApiTrait::results(1,'done','we sent u an email');}
+              {
+                 $client->reset_password_code = str::random(8);
+                 $client->save();
+                 Mail::raw('the code to reset ur emeil is ' . "{" . $client->reset_password_code . "}", function ($message) {
+                  $message->from('hexoo@me.com', 'hexoo');
+                  $message->subject( 'reset');
+              
+                  $message->to('hecktorhexooooooo@gmail.com');
+              });
+               return ApiTrait::results(1,'done','we sent u an email');
+               }
               else{
                return  ApiTrait::results(0,'fail','no such email in database');
             }
@@ -104,4 +122,29 @@ class generalController extends Controller
 
     }
     }
+    public function setNewPassword(Request $request){
+      $validator=validator()->make($request->all(),[
+         "email"=>'required',
+         "code"=>'required',
+         "password"=>'required',
+      ]);
+         if($validator->fails()){
+            return ApiTrait::results(0,$validator->errors()->first(),$validator->errors());
+           }else{
+              $client=Client::where('email',$request->email)->first();
+           
+              if($client)
+              {
+               if ($client->reset_password_code==$request->code){
+                  $client->password=bcrypt($request->password);
+                  return ApiTrait::results(1,'done');
+               }else{
+                  return ApiTrait::results(0,$validator->errors()->first(),$validator->errors());
+               }
+            }else{
+               return ApiTrait::results(0,$validator->errors()->first(),$validator->errors());
+            }
+
+    }
+}
 }
