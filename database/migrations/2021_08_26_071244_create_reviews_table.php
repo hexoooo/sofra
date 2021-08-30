@@ -13,6 +13,7 @@ class CreateReviewsTable extends Migration {
 			$table->enum('rate', array('1', '2', '3', '4', '5'));
 			$table->text('comment');
 			$table->integer('restaurant_id')->unsigned();
+			$table->integer('client_id')->unsigned();
 		});
 	}
 

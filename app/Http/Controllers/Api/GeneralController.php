@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 use Illuminate\Support\Str;
 use Illuminate\Support\facades\hash;
 use Illuminate\Support\facades\Mail;
@@ -12,43 +12,39 @@ use App\Models\Setting;
 use App\Models\Order;
 use App\Traits\ApiTrait;
 use App\Mail\ClientReset;
-use App\Http\Resources\restaurants;
-use App\Http\Resources\menu;
-use App\Http\Resources\register;
-use App\Http\Resources\reviews;
-use App\Http\Resources\meal;
-use App\Http\Resources\info;
-use App\Http\Resources\offers;
-use App\Http\Resources\settings;
-class generalController extends Controller
+use App\Http\Resources\Restaurants;
+use App\Http\Resources\Menu;
+use App\Http\Resources\Register;
+use App\Http\Resources\Reviews;
+use App\Http\Resources\Meal;
+use App\Http\Resources\Info;
+use App\Http\Resources\Offers;
+use App\Http\Resources\Settings;
+class generalController extends \App\Http\Controllers\Controller
 {
    use ApiTrait;
    public function restaurants(){
-      return ApiTrait::results('1','done', restaurants::collection(Restaurant::all()));
+      return $this->results('1','done', Restaurants::collection(Restaurant::all()));
    } 
    public function menu($id){
-      return ApiTrait::results('1','done',menu::collection(Restaurant::where('id',$id)->first()->products()->get()));
+      return $this->results('1','done',Menu::collection(Restaurant::where('id',$id)->first()->products()->get()));
    } 
    public function reviews($id){
-      return ApiTrait::results('1','done',reviews::collection(Restaurant::where('id',$id)->first()->reviews()->get()));
+      return $this->results('1','done',Reviews::collection(Restaurant::where('id',$id)->first()->reviews()->get()));
    } 
    public function info($id){
-     return ApiTrait::results('1','done',new info(Restaurant::where('id',$id)->first()));  
+     return $this->results('1','done',new Info(Restaurant::where('id',$id)->first()));  
    } 
    public function meal($id ,$meal_id){
-      return ApiTrait::results('1','done',new meal(Restaurant::where('id',$id)->first()->products()->where('id',$meal_id)->first())); 
+      return $this->results('1','done',new Meal(Restaurant::where('id',$id)->first()->products()->where('id',$meal_id)->first())); 
    } 
    public function offers(){
-      return ApiTrait::results('1','done',offers::collection(Offer::all())); 
+      return $this->results('1','done',Offers::collection(Offer::all())); 
    } 
    public function about(){
-      return ApiTrait::results('1','done',new settings(setting::first())); 
+      return $this->results('1','done',new Settings(Setting::first())); 
    } 
-   //============= this one for adding products to order-product table=========
-   // public function addProduct($id ,Request $request){
-   //    order::where('id',$id)->products()->attach($request->product,['quantity'=>$request->quantity,'special_notes'=>$request->notes,'price'=>$request->price]);
-   //    return ApiTrait::results('1','done'); 
-   // } 
+
     
    public function register(Request $request){
       $validator=validator()->make($request->all(),[
@@ -60,13 +56,13 @@ class generalController extends Controller
       ]
       ) ;
       if ($validator->fails()){
-          return ApiTrait::results(0,$validator->errors()->first(),$validator->errors());
+          return $this->results(0,$validator->errors()->first(),$validator->errors());
       }
       $request->merge(['password'=>bcrypt($request->password)]);
       $client=Client::create($request->all());
       $client->api_token = str::random(60);
       $client->save();
-      return ApiTrait::results('1','done',new register(client::latest()->first())); 
+      return $this->results('1','done',new Register(Client::latest()->first())); 
    } 
    public function login(Request $request){
     $validator=validator()->make($request->all(),[
@@ -75,21 +71,21 @@ class generalController extends Controller
 
     ]);
     if($validator->fails()){
-    return ApiTrait::results(0,$validator->errors()->first(),$validator->errors());
+    return $this->results(0,$validator->errors()->first(),$validator->errors());
    }else{
       $client=Client::where('email',$request->email)->first();
    
       if($client)
       {
           if (Hash::check($request->password, $client->password)){
-              return ApiTrait::results(1,'logged in successfully',new register(Client::where('email',$request->email)->first()));
+              return $this->results(1,'logged in successfully',new Register(Client::where('email',$request->email)->first()));
            }else{
          
-            return ApiTrait::results(0,'login info error');
+            return $this->results(0,'login info error');
      
             }
        }else{
-          return ApiTrait::results(0,'login info error');
+          return $this->results(0,'login info error');
        }
 
    }
@@ -98,7 +94,7 @@ class generalController extends Controller
       $validator=validator()->make($request->all(),[
          "email"=>'required']);
          if($validator->fails()){
-            return ApiTrait::results(0,$validator->errors()->first(),$validator->errors());
+            return $this->results(0,$validator->errors()->first(),$validator->errors());
            }else{
               $client=Client::where('email',$request->email)->first();
            
@@ -112,10 +108,10 @@ class generalController extends Controller
               
                   $message->to('hecktorhexooooooo@gmail.com');
               });
-               return ApiTrait::results(1,'done','we sent u an email');
+               return $this->results(1,'done','we sent u an email');
                }
               else{
-               return  ApiTrait::results(0,'fail','no such email in database');
+               return  $this->results(0,'fail','no such email in database');
             }
               
             
@@ -129,7 +125,7 @@ class generalController extends Controller
          "password"=>'required',
       ]);
          if($validator->fails()){
-            return ApiTrait::results(0,$validator->errors()->first(),$validator->errors());
+            return $this->results(0,$validator->errors()->first(),$validator->errors());
            }else{
               $client=Client::where('email',$request->email)->first();
            
@@ -137,12 +133,12 @@ class generalController extends Controller
               {
                if ($client->reset_password_code==$request->code){
                   $client->password=bcrypt($request->password);
-                  return ApiTrait::results(1,'done');
+                  return $this->results(1,'done');
                }else{
-                  return ApiTrait::results(0,$validator->errors()->first(),$validator->errors());
+                  return $this->results(0,$validator->errors()->first(),$validator->errors());
                }
             }else{
-               return ApiTrait::results(0,$validator->errors()->first(),$validator->errors());
+               return $this->results(0,$validator->errors()->first(),$validator->errors());
             }
 
     }

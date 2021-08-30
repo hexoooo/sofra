@@ -78,6 +78,11 @@ class CreateForeignKeys extends Migration {
 						->onDelete('no action')
 						->onUpdate('no action');
 		});
+		Schema::table('reviews', function(Blueprint $table) {
+			$table->foreign('client_id')->references('id')->on('clients')
+						->onDelete('no action')
+						->onUpdate('no action');
+		});
 	}
 
 	public function down()

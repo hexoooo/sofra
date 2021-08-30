@@ -11,15 +11,15 @@ class CreateOrdersTable extends Migration {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('client_name');
-			$table->decimal('total_price');
+			$table->decimal('total_price')->default('0');;
 			$table->string('address');
 			$table->string('phone');
 			$table->string('status')->nullable()->default('null');
 			$table->integer('restaurant_id')->unsigned();
 			$table->integer('client_id')->unsigned();
-			$table->decimal('order_price');
+			$table->decimal('order_price')->default('0');
 			$table->decimal('delivery_charge');
-			$table->decimal('commission');
+			$table->decimal('commission')->default('1');;
 		});
 	}
 

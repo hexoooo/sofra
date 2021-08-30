@@ -19,6 +19,10 @@ class Client extends Model
     {
         return $this->hasMany('App\Models\Order');
     }
+    public function reviews()
+    {
+        return $this->hasMany('App\Models\Review');
+    }
 
     public function notifications()
     {

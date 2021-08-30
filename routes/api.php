@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GeneralController;
-use App\Http\Controllers\ClientAuthController;
+use App\Http\Controllers\Api\GeneralController;
+use App\Http\Controllers\Api\client\ClientAuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,14 +26,15 @@ route::group(['prefix'=>'v1'],function(){
     route::get('/restaurant-info/{id}',[GeneralController::class,'info']);
     route::get('/offers',[GeneralController::class,'offers']);
     route::get('/about-app',[GeneralController::class,'about']);
-    //=========== i think this may go to middlewar client============
-    // route::get('/add-product/{id}',[GeneralController::class,'addProduct']);
-    route::post('/register-client',[GeneralController::class,'register']);
-    route::post('/login-client',[GeneralController::class,'login']);
-    route::post('/reset-client-password',[GeneralController::class,'resetPassword']);
-    route::post('/set-new-client-password',[GeneralController::class,'setNewPassword']);
-  // ------------- routes for clients only ------------ //
+    // ------------- routes for clients only ------------ //
+    route::group(['prefix'=>'client'],function(){
+    route::post('/register',[GeneralController::class,'register']);
+    route::post('/login',[GeneralController::class,'login']);
+    route::post('/reset-password',[GeneralController::class,'resetPassword']);
+    route::post('/set-new-password',[GeneralController::class,'setNewPassword']);
+    // ------------- routes for auth clients only ------------ //
     route::group(['middleware'=>'auth:client'],function(){
     route::get('make-order',[ClientAuthController::class,'makeOrder']);
     });
+  });
 });

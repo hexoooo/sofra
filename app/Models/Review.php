@@ -14,5 +14,9 @@ class Review extends Model
     {
         return $this->belongsTo('App\Models\Restaurant');
     }
+    public function client()
+    {
+        return $this->belongsTo('App\Models\Client');
+    }
 
 }

@@ -5,7 +5,7 @@ use App\Models\Product;
 use App\Models\OrderProduct;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class orders extends JsonResource
+class Orders extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,7 +15,7 @@ class orders extends JsonResource
      */
     public function toArray($request)
     {
-        $product=Product::where('id',$request->product_id)->first();
+      
         return [
             'client region'=>$this->client->region->name,
             'client city'=>$this->client->region->city->name,
@@ -23,9 +23,9 @@ class orders extends JsonResource
             'order_price'=>$this->order_price,
             'delivery_charge'=>$this->delivery_charge,
             'commission'=>$this->commission,
-            'quantity'=>OrderProduct::where('order_id',$this->id)->first()->quantity,
+            'quantity'=>OrderProduct::where("order_id",$this->id)->pluck('quantity'),
             'total_price'=>$this->total_price,
-            'meal'=>$product->name,
+            'meal'=>$this->products->pluck('name'),
             'client name'=>$this->client->name,
             'client eamil'=>$this->client->email,
             'client phone'=>$this->client->phone,

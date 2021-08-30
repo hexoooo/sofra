@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 trait ApiTrait{
-    public static function results($status,$message,$data=null){
+    public function results($status,$message,$data=null){
         $response=[
             'status'=>$status,
             'message'=>$message,
