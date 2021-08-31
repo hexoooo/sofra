@@ -14,7 +14,7 @@ class CreateOrdersTable extends Migration {
 			$table->decimal('total_price')->default('0');;
 			$table->string('address');
 			$table->string('phone');
-			$table->string('status')->nullable()->default('null');
+			$table->enum('rate', array('pending', 'accepted', 'declined', 'rejected', 'finished'))->nullable()->default('pending');
 			$table->integer('restaurant_id')->unsigned();
 			$table->integer('client_id')->unsigned();
 			$table->decimal('order_price')->default('0');

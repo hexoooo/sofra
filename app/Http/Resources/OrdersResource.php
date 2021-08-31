@@ -5,7 +5,7 @@ use App\Models\Product;
 use App\Models\OrderProduct;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Orders extends JsonResource
+class OrdersResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

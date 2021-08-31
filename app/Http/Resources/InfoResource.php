@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Register extends JsonResource
+class InfoResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +15,11 @@ class Register extends JsonResource
     public function toArray($request)
     {
         return [
-            'name'=>$this->name,
-            'email'=>$this->email,
-            'phone'=>$this->phone,
-            'region'=>$this->region->name,
-            'api token'=>$this->api_token,
-
-        ];
-}
+                'name'=>$this->name,
+                'city'=>$this->region->city->name,
+                'region'=>$this->region->name,
+                'delivery'=>$this->delivery_charge,    
+                'minimum charge'=>$this->minimum_charge,    
+                ];
+    }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Offers extends JsonResource
+class MealResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,12 @@ class Offers extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'title'=>$this->name,
-            'resturant'=>$this->restaurant->name,
+        return[ 
+            'name'=>$this->name,
+            'price'=>$this->price,
+            'time'=> $this->preparation_times,
+            'description'=>$this->description,
+        
         ];
     }
 }

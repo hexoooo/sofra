@@ -28,13 +28,25 @@ route::group(['prefix'=>'v1'],function(){
     route::get('/about-app',[GeneralController::class,'about']);
     // ------------- routes for clients only ------------ //
     route::group(['prefix'=>'client'],function(){
+    route::get('contact-us',[ClientAuthController::class,'contactUs']);
     route::post('/register',[GeneralController::class,'register']);
     route::post('/login',[GeneralController::class,'login']);
     route::post('/reset-password',[GeneralController::class,'resetPassword']);
     route::post('/set-new-password',[GeneralController::class,'setNewPassword']);
     // ------------- routes for auth clients only ------------ //
     route::group(['middleware'=>'auth:client'],function(){
-    route::get('make-order',[ClientAuthController::class,'makeOrder']);
+    route::post('make-order',[ClientAuthController::class,'makeOrder']);
+    route::post('previous-orders',[ClientAuthController::class,'previousOrder']);
+    route::post('current-orders',[ClientAuthController::class,'currentOrder']);
+    route::post('accept-order',[ClientAuthController::class,'acceptOrder']);
+    route::post('decline-order',[ClientAuthController::class,'declineOrder']);
+    route::post('logout',[ClientAuthController::class,'logout']);
     });
+    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
   });
 });

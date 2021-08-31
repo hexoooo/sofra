@@ -10,39 +10,40 @@ use App\Models\Offer;
 use App\Models\Client;
 use App\Models\Setting;
 use App\Models\Order;
+use App\Models\NotificationToken;
 use App\Traits\ApiTrait;
 use App\Mail\ClientReset;
-use App\Http\Resources\Restaurants;
-use App\Http\Resources\Menu;
-use App\Http\Resources\Register;
-use App\Http\Resources\Reviews;
-use App\Http\Resources\Meal;
-use App\Http\Resources\Info;
-use App\Http\Resources\Offers;
-use App\Http\Resources\Settings;
+use App\Http\Resources\RestaurantsResource;
+use App\Http\Resources\MenuResource;
+use App\Http\Resources\RegisterResource;
+use App\Http\Resources\ReviewsResource;
+use App\Http\Resources\MealResource;
+use App\Http\Resources\InfoResource;
+use App\Http\Resources\OffersResource;
+use App\Http\Resources\SettingsResource;
 class generalController extends \App\Http\Controllers\Controller
 {
    use ApiTrait;
    public function restaurants(){
-      return $this->results('1','done', Restaurants::collection(Restaurant::all()));
+      return $this->results('1','done', RestaurantsResource::collection(Restaurant::all()));
    } 
    public function menu($id){
-      return $this->results('1','done',Menu::collection(Restaurant::where('id',$id)->first()->products()->get()));
+      return $this->results('1','done',MenuResource::collection(Restaurant::where('id',$id)->first()->products()->get()));
    } 
    public function reviews($id){
-      return $this->results('1','done',Reviews::collection(Restaurant::where('id',$id)->first()->reviews()->get()));
+      return $this->results('1','done',ReviewsResource::collection(Restaurant::where('id',$id)->first()->reviews()->get()));
    } 
    public function info($id){
-     return $this->results('1','done',new Info(Restaurant::where('id',$id)->first()));  
+     return $this->results('1','done',new InfoResource(Restaurant::where('id',$id)->first()));  
    } 
    public function meal($id ,$meal_id){
-      return $this->results('1','done',new Meal(Restaurant::where('id',$id)->first()->products()->where('id',$meal_id)->first())); 
+      return $this->results('1','done',new MealResource(Restaurant::where('id',$id)->first()->products()->where('id',$meal_id)->first())); 
    } 
    public function offers(){
-      return $this->results('1','done',Offers::collection(Offer::all())); 
+      return $this->results('1','done',OffersResource::collection(Offer::all())); 
    } 
    public function about(){
-      return $this->results('1','done',new Settings(Setting::first())); 
+      return $this->results('1','done',new SettingsResource(Setting::first())); 
    } 
 
     
@@ -62,7 +63,13 @@ class generalController extends \App\Http\Controllers\Controller
       $client=Client::create($request->all());
       $client->api_token = str::random(60);
       $client->save();
-      return $this->results('1','done',new Register(Client::latest()->first())); 
+      $Notification=new NotificationToken;
+      $Notification->token = str::random(60);
+      $Notification->tokenable_id=$client->id;
+      $Notification->tokenable_type='Client';
+      $Notification->platform=$request->platform;
+      $Notification->save();
+      return $this->results('1','done',new RegisterResource(Client::latest()->first())); 
    } 
    public function login(Request $request){
     $validator=validator()->make($request->all(),[
@@ -78,7 +85,9 @@ class generalController extends \App\Http\Controllers\Controller
       if($client)
       {
           if (Hash::check($request->password, $client->password)){
-              return $this->results(1,'logged in successfully',new Register(Client::where('email',$request->email)->first()));
+            $client->api_token = str::random(60);
+            $client->save();
+              return $this->results(1,'logged in successfully',new RegisterResource(Client::where('email',$request->email)->first()));
            }else{
          
             return $this->results(0,'login info error');
@@ -90,6 +99,7 @@ class generalController extends \App\Http\Controllers\Controller
 
    }
     }
+    public function logout(){}
     public function resetPassword(Request $request){
       $validator=validator()->make($request->all(),[
          "email"=>'required']);
