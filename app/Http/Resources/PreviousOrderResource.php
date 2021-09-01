@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Restaurant;
+use App\Models\Order;
 
 class PreviousOrderResource extends JsonResource
 {
@@ -17,9 +19,11 @@ class PreviousOrderResource extends JsonResource
         
             return [
                 
-                'restaurant name'=>  $restaurant,
-                'order id'=>$this->pluck('id'),
-                'order price'=>$this->pluck('total_price')
+                // 'restaurant name'=> $this->restaurant()->first(),
+                'order id'=>$this->id,
+                'order items'=>$this->products()->pluck('name'),
+                'restaurant name'=>$this->restaurant()->pluck('name'),
+                'order price'=>$this->total_price
         ];
        
     }

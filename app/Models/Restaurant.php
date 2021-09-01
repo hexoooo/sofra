@@ -54,5 +54,19 @@ class Restaurant extends Model
     {
         return $this->hasMany('App\Models\Review');
     }
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'api_token',
+        'phone',
+        'region_id',
+        'delivery_charge',
+        'minimum_charge',
 
+    ];
+    protected $hidden=[
+        'password',
+        'api_token'
+    ];
 }

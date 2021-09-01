@@ -14,7 +14,7 @@ class CreateOffersTable extends Migration {
 			$table->string('info');
 			$table->date('start_date');
 			$table->date('end_date');
-			$table->string('photo');
+			$table->string('photo')->default(null);
 			$table->integer('restaurant_id')->unsigned();
 		});
 	}

@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration {
 			$table->integer('preparation_times');
 			$table->text('description');
 			$table->integer('restaurant_id')->unsigned();
-			$table->decimal('offer_price');
+			$table->decimal('offer_price')->default(null);
 		});
 	}
 

@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\client\ClientAuthController;
+use App\Http\Controllers\Api\Restaurant\RestaurantGeneralController;
+use App\Http\Controllers\Api\Restaurant\RestaurantAuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,11 +44,32 @@ route::group(['prefix'=>'v1'],function(){
     route::post('decline-order',[ClientAuthController::class,'declineOrder']);
     route::post('logout',[ClientAuthController::class,'logout']);
     });
-    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
-    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
-    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
-    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
-    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
-    //!!!!!!!!!!!!!!!!!!!!!!!!! dont forget to make tokens with passport !!!!!!!!!!!!!!!!!!!!!!!!!!
+  });
+  // ------------- routes for restaurants only ------------ //
+  route::group(['prefix'=>'restaurant'],function(){
+
+    route::post('/register',[RestaurantGeneralController::class,'register']);
+    route::post('/login',[RestaurantGeneralController::class,'login']);
+    route::post('/reset-password',[RestaurantGeneralController::class,'resetPassword']);
+    route::post('/set-new-password',[RestaurantGeneralController::class,'setNewPassword']);
+    route::group(['middleware'=>'auth:restaurant'],function(){
+      route::get('/offers',[RestaurantAuthController::class,'offers']);
+      route::get('/add-offers',[RestaurantAuthController::class,'addOffer']);
+      route::get('/edit-offers/{id}',[RestaurantAuthController::class,'editOffer']);
+      route::get('/delete-offers/{id}',[RestaurantAuthController::class,'deleteOffer']);
+      route::get('/menu',[RestaurantAuthController::class,'menu']);
+      route::get('/meal/{meal_id}',[RestaurantAuthController::class,'meal']);
+      route::get('/add-meal',[RestaurantAuthController::class,'addMeal']);
+      route::get('/edit-meal/{id}',[RestaurantAuthController::class,'editMeal']);
+      route::get('/delete-meal/{id}',[RestaurantAuthController::class,'deleteMeal']);
+      route::get('/info',[RestaurantAuthController::class,'info']);
+      route::get('/edit-info',[RestaurantAuthController::class,'editInfo']);
+      route::post('previous-orders',[RestaurantAuthController::class,'previousOrder']);
+      route::post('current-orders',[RestaurantAuthController::class,'currentOrder']);
+      route::post('new-order',[RestaurantAuthController::class,'newOrder']);
+      route::post('accept-order',[RestaurantAuthController::class,'acceptOrder']);
+      route::post('decline-order',[RestaurantAuthController::class,'declineOrder']);
+      route::post('logout',[RestaurantAuthController::class,'logout']);
+      });
   });
 });

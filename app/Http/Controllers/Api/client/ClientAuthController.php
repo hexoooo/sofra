@@ -66,7 +66,7 @@ class ClientAuthController extends \App\Http\Controllers\Controller
         return $this->results(1,'done',new PreviousOrderResource($orders));  
     }
      else{
-        return $this->results(o,'no orders yet'); 
+        return $this->results(0,'no orders yet'); 
      }
     
    
@@ -78,7 +78,7 @@ class ClientAuthController extends \App\Http\Controllers\Controller
         
     }
      else{
-        return $this->results(o,'no orders yet'); 
+        return $this->results(0,'no orders yet'); 
      }
     
    
@@ -86,13 +86,13 @@ class ClientAuthController extends \App\Http\Controllers\Controller
    public function acceptOrder(request $request){
      $orders=auth()->user()->orders()->where('id',$request->id)->first();
      if ($orders->id){
-         $orders->status='accepted';
+         $orders->status='finished';
          $orders->save(); 
         return $this->results(1,'order accepted'); 
         
     }
      else{
-        return $this->results(o,'no orders yet'); 
+        return $this->results(0,'no orders yet'); 
      }
  
    
@@ -106,7 +106,7 @@ class ClientAuthController extends \App\Http\Controllers\Controller
        
    }
     else{
-       return $this->results(o,'no orders yet'); 
+       return $this->results(0,'no orders yet'); 
     }
    
 
