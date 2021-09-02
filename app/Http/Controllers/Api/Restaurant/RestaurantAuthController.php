@@ -221,5 +221,22 @@ public function deleteMeal(Request $request ,$id){
 }
 } 
 
-
+public function commission(){
+  $orders=auth()->user()->orders()->get();
+  $income=0;
+  foreach($orders as $order){
+    $income+=$order->order_price;
+  }
+  $commission=0;
+  foreach($orders as $order){
+    $commission+=$order->commission;
+  }
+  $payments=auth()->user()->payments()->get();
+  $payed=0;
+  foreach($payments as $payment){
+    $payed+=$payment->payed;
+  }
+  $remaining=$commission-$payed;
+  return $this->results('1','done',['income'=>$income,'commission'=>$commission,'payed'=>$payed,'remaining'=>$remaining]);
+}
 }

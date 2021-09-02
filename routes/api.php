@@ -75,7 +75,7 @@ route::group(['prefix'=>'v1'],function(){
       route::post('new-order',[RestaurantAuthController::class,'newOrder']);
       route::post('accept-order',[RestaurantAuthController::class,'acceptOrder']);
       route::post('decline-order',[RestaurantAuthController::class,'declineOrder']);
-      route::post('commession',[RestaurantAuthController::class,'commession']);//incomblete
+      route::post('commission',[RestaurantAuthController::class,'commission']);//incomblete
       route::post('logout',[RestaurantAuthController::class,'logout']);
       });
   });
