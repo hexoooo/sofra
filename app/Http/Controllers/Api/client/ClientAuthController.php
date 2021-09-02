@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Setting;
+use App\Models\Review;
 use App\Models\ContactUs;
 use App\Models\Notification;
+use App\Http\Resources\RegisterResource;
 use App\Traits\ApiTrait;
 use App\Http\Resources\OrdersResource;
 use App\Http\Resources\PreviousOrderResource;
@@ -60,6 +62,41 @@ class ClientAuthController extends \App\Http\Controllers\Controller
         
        return $this->results(1,'done',new OrdersResource($order)); 
    } 
+   public function makeReview(Request $request){
+       $review= new Review;
+       $review->rate=$request->rate;
+       $review->comment=$request->comment;
+       $review->restaurant_id=$request->restaurant_id;
+       $review->client_id=auth()->user()->id;
+       $review->save();
+       return $this->results(1,'done');
+   }
+   public function notification(){
+       $notification= auth()->user()->notifications()->get();
+       dd($notification);
+   }
+   public function showInfo(){
+       $client=auth()->user();
+       return $this->results(1,'done',$client); 
+   }
+   public function editInfo(Request $request ){
+    $client= auth()->user();
+    if($request->name){
+    $client->name=$request->name;
+  }
+    if($request->email){
+    $client->email=$request->email;
+  }
+    if($request->phone){
+    $client->phone=$request->phone;
+  }
+    if($request->region_id){
+    $client->region_id=$request->region_id;
+  }
+  
+  $client->save();
+     return $this->results('1','done', new RegisterResource($client));
+  } 
    public function previousOrder(request $request){
        $orders=auth()->user()->orders()->whereIN('status',['rejected','finished'])->get();
        if($orders->first->id){

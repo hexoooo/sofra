@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Restaurant;
 use App\Models\Offer;
 use App\Models\Client;
+use App\Models\Region;
 use App\Models\Setting;
 use App\Models\Order;
 use App\Models\NotificationToken;
@@ -26,6 +27,32 @@ class generalController extends \App\Http\Controllers\Controller
    use ApiTrait;
    public function restaurants(){
       return $this->results('1','done', RestaurantsResource::collection(Restaurant::all()));
+   } 
+   public function searechRestaurants(Request $request){
+      if($request->name and $request->city){   
+      $restaurant=Region::where('name',$request->region)->first()->restaurants()->where('name',$request->name)->first();
+      if($restaurant){
+      return $this->results('1','done',new RestaurantsResource($restaurant));
+      }else{
+         return $this->results('0','no restaurant found');
+      }
+   }
+      else if($request->name){   
+         $restaurant=Restaurant::where('name',$request->name)->first();
+         if($restaurant){
+         return $this->results('1','done',new RestaurantsResource($restaurant));
+         }else{
+         return $this->results('0','no restaurant found');
+         }
+      }
+      else if($request->region){
+         $restaurant=Region::where('name',$request->region)->first()->restaurants()->get();
+         if($restaurant){
+         return $this->results('1','done', RestaurantsResource::collection($restaurant));
+         }else{
+         return $this->results('0','no restaurant found');
+         }
+      }
    } 
    public function menu($id){
       return $this->results('1','done',MenuResource::collection(Restaurant::where('id',$id)->first()->products()->get()));

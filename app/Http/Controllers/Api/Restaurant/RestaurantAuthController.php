@@ -124,6 +124,10 @@ public function meal($meal_id){
 public function offers(Request $request){
    return $this->results('1','done',OffersResource::collection(auth()->user()->offers()->get())); 
 } 
+public function notification(){
+  $notification= auth()->user()->notifications()->get();
+  dd($notification);
+}
 public function addOffer(Request $request){
   $validator=validator()->make($request->all(),[
     "name"=>'required',

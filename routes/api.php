@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\Restaurant\RestaurantAuthController;
 // });
 route::group(['prefix'=>'v1'],function(){
     route::get('/restaurants',[GeneralController::class,'restaurants']);
+    route::get('/search-restaurants',[GeneralController::class,'searechRestaurants']);
     route::get('/menu/{id}',[GeneralController::class,'menu']);
     route::get('/meal/{id}/{meal_id}',[GeneralController::class,'meal']);
     route::get('/reviews/{id}',[GeneralController::class,'reviews']);
@@ -38,6 +39,10 @@ route::group(['prefix'=>'v1'],function(){
     // ------------- routes for auth clients only ------------ //
     route::group(['middleware'=>'auth:client'],function(){
     route::post('make-order',[ClientAuthController::class,'makeOrder']);
+    route::post('show-info',[ClientAuthController::class,'showInfo']);
+    route::post('edit-info',[ClientAuthController::class,'editInfo']);
+    route::post('make-review',[ClientAuthController::class,'makeReview']);
+    route::post('notification',[ClientAuthController::class,'notification']);
     route::post('previous-orders',[ClientAuthController::class,'previousOrder']);
     route::post('current-orders',[ClientAuthController::class,'currentOrder']);
     route::post('accept-order',[ClientAuthController::class,'acceptOrder']);
@@ -47,13 +52,14 @@ route::group(['prefix'=>'v1'],function(){
   });
   // ------------- routes for restaurants only ------------ //
   route::group(['prefix'=>'restaurant'],function(){
-
     route::post('/register',[RestaurantGeneralController::class,'register']);
     route::post('/login',[RestaurantGeneralController::class,'login']);
     route::post('/reset-password',[RestaurantGeneralController::class,'resetPassword']);
     route::post('/set-new-password',[RestaurantGeneralController::class,'setNewPassword']);
+   // ------------- routes for auth restaurants only ------------ //
     route::group(['middleware'=>'auth:restaurant'],function(){
       route::get('/offers',[RestaurantAuthController::class,'offers']);
+      route::get('/notifications',[RestaurantAuthController::class,'notification']);
       route::get('/add-offers',[RestaurantAuthController::class,'addOffer']);
       route::get('/edit-offers/{id}',[RestaurantAuthController::class,'editOffer']);
       route::get('/delete-offers/{id}',[RestaurantAuthController::class,'deleteOffer']);
@@ -69,6 +75,7 @@ route::group(['prefix'=>'v1'],function(){
       route::post('new-order',[RestaurantAuthController::class,'newOrder']);
       route::post('accept-order',[RestaurantAuthController::class,'acceptOrder']);
       route::post('decline-order',[RestaurantAuthController::class,'declineOrder']);
+      route::post('commession',[RestaurantAuthController::class,'commession']);//incomblete
       route::post('logout',[RestaurantAuthController::class,'logout']);
       });
   });

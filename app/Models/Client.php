@@ -44,7 +44,8 @@ class Client extends Model
     ];
     protected $hidden=[
         'password',
-        'api_token'
+        'api_token',
+        'reset_password_code'
     ];
 
 }
