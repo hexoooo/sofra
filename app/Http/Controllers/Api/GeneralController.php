@@ -6,6 +6,7 @@ use Illuminate\Support\facades\hash;
 use Illuminate\Support\facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\Restaurant;
+use App\Models\User;
 use App\Models\Offer;
 use App\Models\Client;
 use App\Models\Region;
@@ -25,6 +26,12 @@ use App\Http\Resources\SettingsResource;
 class generalController extends \App\Http\Controllers\Controller
 {
    use ApiTrait;
+   //====================testing the passport====================
+   // public function test(){
+   //  $token=User::first()->createToken('authToken')->accessToken;
+   //    dd(User::where('id',1)->first());
+   // }
+    //====================testing the passport====================
    public function restaurants(){
       return $this->results('1','done', RestaurantsResource::collection(Restaurant::all()));
    } 

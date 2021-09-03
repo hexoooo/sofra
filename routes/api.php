@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\Restaurant\RestaurantAuthController;
 //     return $request->user();
 // });
 route::group(['prefix'=>'v1'],function(){
+    // route::get('/test',[GeneralController::class,'test']);  //====================testing the passport====================\\
     route::get('/restaurants',[GeneralController::class,'restaurants']);
     route::get('/search-restaurants',[GeneralController::class,'searechRestaurants']);
     route::get('/menu/{id}',[GeneralController::class,'menu']);
