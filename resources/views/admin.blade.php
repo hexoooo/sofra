@@ -1,14 +1,17 @@
 @extends('layout')
 @section('content')
 @inject('clients', 'App\Models\client')
+@inject('restaurants', 'App\Models\Restaurant')
 @inject('regions', 'App\Models\Region')
 @inject('cities', 'App\Models\City')
 @inject('categories', 'App\Models\category')
-{{-- @inject('donations', 'App\Models\DonationRequest') closed --}}
-{{-- @inject('ContactInfo', 'App\Models\ContactUs') closed
+@inject('payments', 'App\Models\Payment')
+@inject('offers', 'App\Models\offer')
+@inject('Contacts', 'App\Models\ContactUs')
+@inject('settings', 'App\Models\Setting')
+@inject('orders', 'App\Models\Order')
+{{-- 
 @inject('users', 'App\Models\user')closed
-@inject('settings', 'App\Models\ContactInfo')closed
-@inject('rules', 'Spatie\Permission\Models\Role')closed
 @inject('permissions', 'Spatie\Permission\Models\permission') closed--}}
 
   <!-- Content Wrapper. Contains page content -->
@@ -32,8 +35,8 @@
             <span class="info-box-icon bg-warning"><i class="fas fa-bullhorn"></i></span>
     
             <div class="info-box-content">
-              {{-- <span class="info-box-text"><a href="/posts">post</a></span>
-              <span class="info-box-number">{{$posts->count()}}</span> --}}
+              <span class="info-box-text"><a href="/payments">payments</a></span>
+              <span class="info-box-number">{{$payments->count()}}</span>
             </div>
             
 
@@ -44,8 +47,19 @@
             <span class="info-box-icon bg-warning"><i class="fas fa-door-open"></i></span>
     
             <div class="info-box-content">
-              {{-- <span class="info-box-text"><a href='/roles'>roles</a></span>
-              <span class="info-box-number">{{$rules->count()}}</span> --}}
+              <span class="info-box-text"><a href='/offers'>offers</a></span>
+              <span class="info-box-number">{{$offers->count()}}</span>
+            </div>
+            
+
+            <!-- /.info-box-content -->
+          </div>
+          <div class="info-box">
+            <span class="info-box-icon bg-warning"><i class="fas fa-door-open"></i></span>
+    
+            <div class="info-box-content">
+              <span class="info-box-text"><a href='/orders'>orders</a></span>
+              <span class="info-box-number">{{$orders->count()}}</span>
             </div>
             
 
@@ -69,8 +83,8 @@
             <span class="info-box-icon bg-danger"><i class="fas fa-tint"></i></span>
     
             <div class="info-box-content">
-              {{-- <span class="info-box-text"><a href="/donations">donations</a></span>
-              <span class="info-box-number">{{$donations->count()}}</span> --}}
+              <span class="info-box-text"><a href="/restaurants">restaurants</a></span>
+              <span class="info-box-number">{{$restaurants->count()}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -102,8 +116,8 @@
             <span class="info-box-icon bg-info"><i class="fas fa-envelope"></i></span>
     
             <div class="info-box-content">
-              {{-- <span class="info-box-text"><a href="/contacts">contacts</a></span>
-              <span class="info-box-number">{{$ContactInfo->count()}}</span> --}}
+              <span class="info-box-text"><a href="/contacts">contacts</a></span>
+              <span class="info-box-number">{{$Contacts->count()}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -144,8 +158,8 @@
             <span class="info-box-icon bg-success"><i class="fas fa-user-cog"></i></span>
     
             <div class="info-box-content">
-              {{-- <span class="info-box-text"><a href="/settings">settings</a></span>
-              <span class="info-box-number">{{$settings->count()}}</span> --}}
+              <span class="info-box-text"><a href="/settings">settings</a></span>
+              <span class="info-box-number">{{$settings->count()}}</span>
   
             </div>
             <!-- /.info-box-content -->

@@ -6,7 +6,13 @@ use App\Http\Controllers\web\adminlte\GovernorateController;
 use App\Http\Controllers\web\adminlte\ClientController;
 use App\Http\Controllers\web\adminlte\CategoryController;
 use App\Http\Controllers\web\adminlte\RegionController;
-use App\Http\Controllers\web\adminlte\cityController;
+use App\Http\Controllers\web\adminlte\CityController;
+use App\Http\Controllers\web\adminlte\OfferController;
+use App\Http\Controllers\web\adminlte\PaymentController;
+use App\Http\Controllers\web\adminlte\ContactController;
+use App\Http\Controllers\web\adminlte\OrderController;
+use App\Http\Controllers\web\adminlte\SettingController;
+use App\Http\Controllers\web\adminlte\RestaurantController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,3 +40,15 @@ route::resource("/categories",CategoryController::class);
 route::resource("/regions",RegionController::class);
 //clients
 route::resource("/clients",ClientController::class);
+//payments
+route::resource("/payments",PaymentController::class);
+//offer
+route::resource("/offers",OfferController::class);
+//contacts
+route::resource("/contacts",ContactController::class);
+//settings
+route::resource("/settings",SettingController::class);
+//restaurants
+route::resource("/restaurants",RestaurantController::class);
+//orders
+route::resource("/orders",OrderController::class);

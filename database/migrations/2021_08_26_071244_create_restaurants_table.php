@@ -19,6 +19,7 @@ class CreateRestaurantsTable extends Migration {
 			$table->decimal('minimum_charge');
 			$table->string('api_token')->default(null);
 			$table->string('reset_password_code')->default(null);
+			$table->string('active')->default(0);
 			$table->string('photo')->default(null);
 		});
 	}
