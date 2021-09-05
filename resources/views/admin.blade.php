@@ -1,5 +1,11 @@
 @extends('layout')
 @section('content')
+@section('pagename')
+control panel
+@endsection
+@section('title')
+admin control panel
+@endsection
 @inject('clients', 'App\Models\client')
 @inject('restaurants', 'App\Models\Restaurant')
 @inject('regions', 'App\Models\Region')
@@ -10,8 +16,8 @@
 @inject('Contacts', 'App\Models\ContactUs')
 @inject('settings', 'App\Models\Setting')
 @inject('orders', 'App\Models\Order')
+@inject('users', 'App\Models\user')
 {{-- 
-@inject('users', 'App\Models\user')closed
 @inject('permissions', 'Spatie\Permission\Models\permission') closed--}}
 
   <!-- Content Wrapper. Contains page content -->
@@ -126,8 +132,8 @@
             <span class="info-box-icon bg-info"><i class="far fa-user-circle"></i></span>
     
             <div class="info-box-content">
-              {{-- <span class="info-box-text"><a href='/users'>users</a></span>
-              <span class="info-box-number">{{$users->count()}}</span> --}}
+              <span class="info-box-text"><a href='/users'>users</a></span>
+              <span class="info-box-number">{{$users->count()}}</span>
             </div>
             <!-- /.info-box-content -->
           </div>

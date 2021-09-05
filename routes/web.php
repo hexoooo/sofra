@@ -13,6 +13,8 @@ use App\Http\Controllers\web\adminlte\ContactController;
 use App\Http\Controllers\web\adminlte\OrderController;
 use App\Http\Controllers\web\adminlte\SettingController;
 use App\Http\Controllers\web\adminlte\RestaurantController;
+use App\Http\Controllers\web\adminlte\UserController;
+use App\Http\Controllers\web\adminlte\ResetController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +33,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth','web'])->group(function () {
+    
+
 Route::get('/main', [AdminController::class, 'admin']); 
 //governorates
 route::resource("/cities",CityController::class);
@@ -52,3 +57,8 @@ route::resource("/settings",SettingController::class);
 route::resource("/restaurants",RestaurantController::class);
 //orders
 route::resource("/orders",OrderController::class);
+//users
+route::resource("/users",UserController::class);
+//reset passowrd
+route::resource("/reset",ResetController::class);
+});
