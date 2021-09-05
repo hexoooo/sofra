@@ -4,7 +4,7 @@ namespace App\Http\Controllers\web\adminlte;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
-class settingController extends \App\Http\Controllers\Controller
+class SettingController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.

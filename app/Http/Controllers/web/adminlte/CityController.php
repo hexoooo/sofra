@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\web\adminlte;
 use App\Models\City;
 use Illuminate\Http\Request;
-class cityController extends \App\Http\Controllers\Controller
+class CityController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.

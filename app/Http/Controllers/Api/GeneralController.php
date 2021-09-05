@@ -23,7 +23,7 @@ use App\Http\Resources\MealResource;
 use App\Http\Resources\InfoResource;
 use App\Http\Resources\OffersResource;
 use App\Http\Resources\SettingsResource;
-class generalController extends \App\Http\Controllers\Controller
+class GeneralController extends \App\Http\Controllers\Controller
 {
    use ApiTrait;
    //====================testing the passport====================

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Http\Request;
 
-class resetController extends \App\Http\Controllers\Controller
+class ResetController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.

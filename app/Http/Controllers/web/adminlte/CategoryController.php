@@ -4,7 +4,7 @@ namespace App\Http\Controllers\web\adminlte;
 use App\Models\category;
 use Illuminate\Http\Request;
 
-class categoryController extends \App\Http\Controllers\Controller
+class CategoryController extends \App\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.

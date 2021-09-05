@@ -122,6 +122,7 @@ public function meal($meal_id){
    return $this->results('1','done',new MealResource(auth()->user()->products()->where('id',$meal_id)->first())); 
 } 
 public function offers(Request $request){
+  return auth()->user();
    return $this->results('1','done',OffersResource::collection(auth()->user()->offers()->get())); 
 } 
 public function notification(){
