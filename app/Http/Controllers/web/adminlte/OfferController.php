@@ -14,7 +14,7 @@ class OfferController extends \App\Http\Controllers\Controller
      */
     public function index(request $request)
     {
-        // if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
             if($request->name){
                 $offers=Restaurant::where('name',$request->name)->first()->offers()->get();
                 $restaurants= Restaurant::get();
@@ -28,7 +28,7 @@ class OfferController extends \App\Http\Controllers\Controller
                  $offers= Offer::paginate(10);
                  return view('offer\offers',['offers'=>$offers,'restaurants'=>$restaurants]);}
                 
-        // }else{abort(403);}
+        }else{abort(403);}
 
         //here we can see all the offers
       
@@ -102,12 +102,13 @@ class OfferController extends \App\Http\Controllers\Controller
      */
     public function destroy($id)
     {
-    // {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+    {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
         $offer=Offer::where('id',$id);
         $offer->delete();
         $offers= Offer::paginate(10);
         return redirect(url('/offers'));
-    // }else{abort(403);}
+    }else{abort(403);}
 }
 
+}
 }

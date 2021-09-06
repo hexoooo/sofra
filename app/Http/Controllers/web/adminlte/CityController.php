@@ -12,11 +12,11 @@ class CityController extends \App\Http\Controllers\Controller
      */
     public function index()
     {
-    // {if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
+   if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
         //here we can see all the cities
         $cities= City::paginate(10);
         return view('city\cities',['cities'=>$cities]);
-    // }else{abort(403);}
+    }else{abort(403);}
     }
 
     /**
@@ -27,9 +27,9 @@ class CityController extends \App\Http\Controllers\Controller
     public function create()
     {
         //here u can add new cities
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
             return view('city\create');
-        // }else{abort(403);}
+        }else{abort(403);}
     }
 
     /**
@@ -41,13 +41,13 @@ class CityController extends \App\Http\Controllers\Controller
     public function store(Request $request)
     {
         //here we can save the new data
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
             $city= new city;
             $city->name=$request->name;
             $city->save();
             $cities= city::paginate(10);
             return redirect(url('/cities'));
-        // }else{abort(403);}
+        }else{abort(403);}
     }
 
     /**
@@ -70,9 +70,9 @@ class CityController extends \App\Http\Controllers\Controller
     public function edit($id)
     {
         //here u can edit ur cities
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
             return view('city/edit',['id'=>$id]);
-        // }else{abort(403);}
+        }else{abort(403);}
     }
 
     /**
@@ -85,13 +85,13 @@ class CityController extends \App\Http\Controllers\Controller
     public function update(Request $request, $id)
     {
         //here we put the new edited name of cities
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
             $city= city::where('id',$id)->first();
             $city->name=$request->newName;
             $city->save();
             $cities= city::paginate(10);
             return redirect(url('/cities'));
-        // }else{abort(403);}
+        }else{abort(403);}
             
         }
         
@@ -104,11 +104,11 @@ class CityController extends \App\Http\Controllers\Controller
     public function destroy($id)
     {
         //here we can delete the city we added
-        // if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
             $city=city::where('id',$id);
             $city->delete();
             $cities= city::paginate(10);
             return redirect(url('/cities'));
-        // }else{abort(403);}
+        }else{abort(403);}
         }
 }

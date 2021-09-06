@@ -17,8 +17,10 @@ admin control panel
 @inject('settings', 'App\Models\Setting')
 @inject('orders', 'App\Models\Order')
 @inject('users', 'App\Models\user')
-{{-- 
-@inject('permissions', 'Spatie\Permission\Models\permission') closed--}}
+@inject('roles', 'Spatie\Permission\Models\Role')
+@inject('permissions', 'Spatie\Permission\Models\permission')
+
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -99,11 +101,24 @@ admin control panel
             <span class="info-box-icon bg-danger"><i class="fas fa-lock"></i></i></span>
     
             <div class="info-box-content">
-              {{-- <span class="info-box-text"><a href='/permissions'>permissions</a></span>
-              <span class="info-box-number">{{$permissions->count()}}</span> --}}
+              <span class="info-box-text"><a href='/permissions'>permissions</a></span>
+              <span class="info-box-number">{{$permissions->count()}}</span>
             </div>
             <!-- /.info-box-content -->
+            
           </div>
+          
+          <div class="info-box">
+            <span class="info-box-icon bg-danger"><i class="fas fa-lock"></i></i></span>
+    
+            <div class="info-box-content">
+              <span class="info-box-text"><a href='/roles'>roles</a></span>
+              <span class="info-box-number">{{$roles->count()}}</span>
+            </div>
+            <!-- /.info-box-content -->
+            
+          </div>
+          
    
           <!-- /.info-box -->
         </div>

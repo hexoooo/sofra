@@ -36,6 +36,12 @@
         <div class="card-header">
           <h3 class="card-title">create user</h3>
         </div>
+        @if (isset($messages))    
+       @foreach ($messages->all() as $message)
+           {{$message . ' || '}}
+       @endforeach
+        
+        @endif
         <div class="card-body">
             <form action={{url(route('users.store'))}} method="post">
 
@@ -52,11 +58,11 @@
                       <div class="form-group">
                         <label>Select role</label>
                         <select  class="form-control" name='role'>
-                          {{-- @foreach($role as $r)
+                          @foreach($role as $r)
                           @php 
                           echo "<option value='$r->name'> $r->name </option>"
                           @endphp
-                          @endforeach --}}
+                          @endforeach
 
                         </select>
                       </div>

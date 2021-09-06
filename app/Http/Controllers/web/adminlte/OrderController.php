@@ -14,7 +14,7 @@ class OrderController extends \App\Http\Controllers\Controller
      */
     public function index(request $request)
     {
-        // if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
             if($request->name)
             { $orders=Order::where('name',$request->name)->paginate(10);
               if($orders->first()){
@@ -26,7 +26,7 @@ class OrderController extends \App\Http\Controllers\Controller
                 
             else{  $orders= Order::paginate(10);
                 return view('order\orders',['orders'=>$orders]);}
-        // }else{abort(403);}
+        }else{abort(403);}
 
         //here we can see all the orders
       
@@ -100,12 +100,13 @@ class OrderController extends \App\Http\Controllers\Controller
      */
     public function destroy($id)
     {
-    // {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+    {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
         $order=Order::where('id',$id);
         $order->delete();
         $orders= Order::paginate(10);
         return redirect(url('/orders'));
-    // }else{abort(403);}
+    }else{abort(403);}
 }
 
+}
 }

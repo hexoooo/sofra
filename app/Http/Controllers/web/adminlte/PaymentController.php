@@ -15,20 +15,32 @@ class PaymentController extends \App\Http\Controllers\Controller
     public function index(Request $request)
     {
         //here we can see all the payments
-        // if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
+        //   $restaurants= Restaurant::get();
+        //   $payments=Restaurant::where(function($q) use($request){
+        //     if($request->name){
+        //         $q->where('name' ,'like','%' .$request->name .'%')->payments()->get();
+        //     }else{
+        //        $payments= Payment::paginate(10);
+        //     }
+
+        // })->payments()->get();
+        // return view('payment\payments',['payments'=>$payments,'restaurants'=>$restaurants]);
+          
+                    //   $restaurants= Restaurant::get();
+          // // \\\\\\\\\\the old way//////////
           if($request->name){
            $payments=Restaurant::where('name',$request->name)->first()->payments()->get();
            $restaurants= Restaurant::get();
             if($payments->first()){
               return view('payment\payments',['payments'=>$payments,'restaurants'=>$restaurants]);
           }else{   
-            $payments= Payment::paginate(10);
             return view('payment\err');}
           }else{
             $payments= Payment::paginate(10);
             $restaurants= Restaurant::get();
             return view('payment\payments',['payments'=>$payments,'restaurants'=>$restaurants]);}
-        // }else{abort(403);}
+        }else{abort(403);}
     }
     /**
      * Show the form for creating a new resource.
@@ -38,10 +50,10 @@ class PaymentController extends \App\Http\Controllers\Controller
     public function create()
     {
         //
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
           $restaurant=Restaurant::all();
             return view('payment\create',['restaurants'=>$restaurant]);
-        // }else{abort(403);}
+        }else{abort(403);}
         }
         
     /**
@@ -53,7 +65,7 @@ class PaymentController extends \App\Http\Controllers\Controller
       public function store(Request $request)
       {
           //here we can save the new data
-        //   if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+          if(auth()->user()->hasAnyRole(['admin','writer'])){ 
               $payment= new payment;
               $restaurant=Restaurant::where('name',$request->restaurant)->first()->id;
               $payment->payed=$request->payed;
@@ -62,7 +74,7 @@ class PaymentController extends \App\Http\Controllers\Controller
               $payment->restaurant_id=$restaurant;
               $payment->save();
               return redirect(url('/payments'));
-            // }else{abort(403);}
+            }else{abort(403);}
             }
             
             /**
@@ -85,10 +97,10 @@ class PaymentController extends \App\Http\Controllers\Controller
       public function edit($id)
       {
           //here u can edit ur payments
-        //   if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+          if(auth()->user()->hasAnyRole(['admin','writer'])){ 
               $restaurant=Restaurant::all();
               return view('payment/edit',['id'=>$id,'restaurants'=>$restaurant]);
-            // }else{abort(403);}
+            }else{abort(403);}
             }
   
       /**
@@ -101,7 +113,7 @@ class PaymentController extends \App\Http\Controllers\Controller
       public function update(Request $request, $id)
       {
           //here we put the new edited name of payments
-        //   if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+          if(auth()->user()->hasAnyRole(['admin','writer'])){ 
               $payment= Payment::where('id',$id)->first();
               if($request->payed){
               $payment->payed=$request->payed;
@@ -118,7 +130,7 @@ class PaymentController extends \App\Http\Controllers\Controller
             }  
               $payment->save();
               return redirect(url('/payments'));
-            // }else{abort(403);}
+            }else{abort(403);}
             }
             
             /**
@@ -130,10 +142,10 @@ class PaymentController extends \App\Http\Controllers\Controller
       public function destroy($id)
       {
           //here we can delete the payment we added
-        //   if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+          if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
               $payment=Payment::where('id',$id);
               $payment->delete();
               return redirect(url('/payments'));
-            // }else{abort(403);}
+            }else{abort(403);}
             }
         }

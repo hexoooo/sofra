@@ -15,11 +15,11 @@ class RegionController extends \App\Http\Controllers\Controller
     public function index()
     {
         //here we can see all the regions
-        // if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
             $regions= Region::paginate(10);
             $city= City::all();
             return view('region\regions',['regions'=>$regions,'cities'=>$city]);
-        // }else{abort(403);}
+        }else{abort(403);}
     }
     /**
      * Show the form for creating a new resource.
@@ -29,10 +29,10 @@ class RegionController extends \App\Http\Controllers\Controller
     public function create()
     {
         //
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
             $city=City::all();
             return view('region\create',['cities'=>$city]);
-        // }else{abort(403);}
+        }else{abort(403);}
         }
         
     /**
@@ -44,7 +44,7 @@ class RegionController extends \App\Http\Controllers\Controller
       public function store(Request $request)
       {
           //here we can save the new data
-        //   if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+          if(auth()->user()->hasAnyRole(['admin','writer'])){ 
               $region= new region;
               $city=City::where('name',$request->id)->first()->id;
               $region->name=$request->name;
@@ -53,7 +53,7 @@ class RegionController extends \App\Http\Controllers\Controller
               $regions= Region::paginate(10);
               $city= City::all();
               return redirect(url('/regions'));
-            // }else{abort(403);}
+            }else{abort(403);}
             }
             
             /**
@@ -76,10 +76,10 @@ class RegionController extends \App\Http\Controllers\Controller
       public function edit($id)
       {
           //here u can edit ur regions
-        //   if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+          if(auth()->user()->hasAnyRole(['admin','writer'])){ 
               $city=City::all();
               return view('region/edit',['id'=>$id,'cities'=>$city]);
-            // }else{abort(403);}
+            }else{abort(403);}
             }
   
       /**
@@ -92,7 +92,7 @@ class RegionController extends \App\Http\Controllers\Controller
       public function update(Request $request, $id)
       {
           //here we put the new edited name of regions
-        //   if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+          if(auth()->user()->hasAnyRole(['admin','writer'])){ 
               $region= Region::where('id',$id)->first();
               $city= City::all();
               if($request->newName)
@@ -101,7 +101,7 @@ class RegionController extends \App\Http\Controllers\Controller
               $region->save();
               $regions= Region::paginate(10);
               return redirect(url('/regions'));
-            // }else{abort(403);}
+            }else{abort(403);}
             }
             
             /**
@@ -113,12 +113,12 @@ class RegionController extends \App\Http\Controllers\Controller
       public function destroy($id)
       {
           //here we can delete the region we added
-        //   if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+          if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
               $region=Region::where('id',$id);
               $region->delete();
               $regions= Region::paginate(10);
               $city= City::all();
               return redirect(url('/regions'));
-            // }else{abort(403);}
+            }else{abort(403);}
             }
         }

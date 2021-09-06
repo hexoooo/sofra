@@ -14,10 +14,10 @@ class SettingController extends \App\Http\Controllers\Controller
     public function index()
     {
         //here we can see all the settings
-        // if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator',])){ 
             $settings= Setting::paginate(10);
             return view('setting/settings',['settings'=>$settings]);
-        // }else{abort(403);}
+        }else{abort(403);}
     }
 
     /**
@@ -64,9 +64,9 @@ class SettingController extends \App\Http\Controllers\Controller
     {
         //here u can edit ur settings
         
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
             return view('setting/edit',['id'=>$id]);
-        // }else{abort(403);}
+        }else{abort(403);}
     }
 
     /**
@@ -80,7 +80,7 @@ class SettingController extends \App\Http\Controllers\Controller
     {
         //here we put the new edited name of settings
         
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
             $setting= Setting::where('id',$id)->first();
             if($request->about){
             $setting->about_app=$request->about;
@@ -90,7 +90,7 @@ class SettingController extends \App\Http\Controllers\Controller
             }
             $setting->save();
             return redirect(url('/settings'));
-        // }else{abort(403);}
+        }else{abort(403);}
 
     }
 

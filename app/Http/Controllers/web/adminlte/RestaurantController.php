@@ -15,7 +15,7 @@ class RestaurantController extends \App\Http\Controllers\Controller
      */
     public function index(request $request)
     {
-        // if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
             if($request->name)
             { $restaurants=Restaurant::where('name',$request->name)->paginate(10);
               if($restaurants->first()){
@@ -27,7 +27,7 @@ class RestaurantController extends \App\Http\Controllers\Controller
                 
             else{  $restaurants= Restaurant::paginate(10);
                 return view('restaurant\restaurants',['restaurants'=>$restaurants]);}
-        // }else{abort(403);}
+        }else{abort(403);}
 
         //here we can see all the restaurants
       
@@ -76,7 +76,7 @@ class RestaurantController extends \App\Http\Controllers\Controller
      */
     public function edit($id)
     {
-    // {if(auth()->user()->hasAnyRole(['admin'])){ 
+    if(auth()->user()->hasAnyRole(['admin'])){ 
         $restaurant=Restaurant::where('id',$id)->first();
 
         if ($restaurant->active){
@@ -93,7 +93,7 @@ class RestaurantController extends \App\Http\Controllers\Controller
             $restaurants= Restaurant::paginate(10);
             return redirect(url('/restaurants'));
         }
-    // }else{abort(403);}
+    }else{abort(403);}
   }
 
     /**
@@ -118,12 +118,13 @@ class RestaurantController extends \App\Http\Controllers\Controller
      */
     public function destroy($id)
     {
-    // {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+    {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
         $restaurant=Restaurant::where('id',$id);
         $restaurant->delete();
         $restaurants= Restaurant::paginate(10);
         return redirect(url('/restaurants'));
-    // }else{abort(403);}
+    }else{abort(403);}
 }
 
+}
 }

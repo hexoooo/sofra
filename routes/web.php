@@ -15,6 +15,8 @@ use App\Http\Controllers\web\adminlte\SettingController;
 use App\Http\Controllers\web\adminlte\RestaurantController;
 use App\Http\Controllers\web\adminlte\UserController;
 use App\Http\Controllers\web\adminlte\ResetController;
+use App\Http\Controllers\web\adminlte\RoleController;
+use App\Http\Controllers\web\adminlte\PermissionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -61,4 +63,8 @@ route::resource("/orders",OrderController::class);
 route::resource("/users",UserController::class);
 //reset passowrd
 route::resource("/reset",ResetController::class);
+//rules
+route::resource("/roles",RoleController::class);
+//permissions
+route::resource("/permissions",PermissionController::class);
 });

@@ -14,10 +14,10 @@ class CategoryController extends \App\Http\Controllers\Controller
     public function index()
     {
         //here we can see all the categories
-        // if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
             $categories= category::paginate(10);
             return view('categories/categories',['categories'=>$categories]);
-        // }else{abort(403);}
+        }else{abort(403);}
     }
 
     /**
@@ -28,10 +28,10 @@ class CategoryController extends \App\Http\Controllers\Controller
     public function create()
     {
         //here u can add new categories
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
 
             return view('categories/create');
-        // }else{abort(403);}
+        }else{abort(403);}
     }
 
     /**
@@ -43,13 +43,13 @@ class CategoryController extends \App\Http\Controllers\Controller
     public function store(Request $request)
     {
         //here we can save the new data
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
             $category= new category;
             $category->name=$request->name;
             $category->save();
             $categories= category::paginate(10);
             return redirect(url('/categories'));
-        // }else{abort(403);}
+        }else{abort(403);}
         }
 
     /**
@@ -73,9 +73,9 @@ class CategoryController extends \App\Http\Controllers\Controller
     {
         //here u can edit ur categories
         
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
             return view('categories/edit',['id'=>$id]);
-        // }else{abort(403);}
+        }else{abort(403);}
     }
 
     /**
@@ -89,13 +89,13 @@ class CategoryController extends \App\Http\Controllers\Controller
     {
         //here we put the new edited name of categories
         
-        // if(auth()->user()->hasAnyRole(['admin','writer'])){ 
+        if(auth()->user()->hasAnyRole(['admin','writer'])){ 
             $category= category::where('id',$id)->first();
             $category->name=$request->newName;
             $category->save();
             $categories= category::paginate(10);
             return redirect(url('/categories'));
-        // }else{abort(403);}
+        }else{abort(403);}
 
     }
 
@@ -109,11 +109,12 @@ class CategoryController extends \App\Http\Controllers\Controller
     {
         //here we can delete the category we added
 
-        // if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
             $category=category::where('id',$id);
             $category->delete();
             $categories= category::paginate(10);
             return redirect(url('/categories'));
         // }else{abort(403);}
         }
+}
 }

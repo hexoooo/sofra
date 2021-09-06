@@ -13,7 +13,7 @@ class ContactController extends \App\Http\Controllers\Controller
      */
     public function index(request $request)
     {
-        // if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+        if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
             if($request->name){
                 $contacts=ContactUs::where('name',$request->name)->get();
                  if($contacts->first()){
@@ -25,7 +25,7 @@ class ContactController extends \App\Http\Controllers\Controller
                  $contacts= ContactUs::paginate(10);
                  return view('contact\contacts',['contacts'=>$contacts]);}
                 
-        // }else{abort(403);}
+        }else{abort(403);}
 
         //here we can see all the contacts
       
@@ -99,11 +99,12 @@ class ContactController extends \App\Http\Controllers\Controller
      */
     public function destroy($id)
     {
-    // {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+    {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
         $contact=ContactUs::where('id',$id);
         $contact->delete();
         return redirect(url('/contacts'));
-    // }else{abort(403);}
+    }else{abort(403);}
 }
 
+}
 }

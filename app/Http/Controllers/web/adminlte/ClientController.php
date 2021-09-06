@@ -15,19 +15,28 @@ class ClientController extends \App\Http\Controllers\Controller
      */
     public function index(request $request)
     {
-        // if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
-            if($request->name)
-            { $clients=client::where('name',$request->name)->paginate(10);
-              if($clients->first()){
-                return view('client\clients',['clients'=>$clients]);
-            }else{   
-                $clients= client::paginate(10);
-                return view('client\err');}}
+        if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+            // if($request->name)
+            $clients=client::where(function($q) use($request){
+                if($request->name){
+                    $q->where('name' ,'like','%' .$request->name .'%');
+                }else{
+                    $clients=client::all();
+                }
+
+            })->get();
+            return view('client\clients',['clients'=>$clients]);
+            // { $clients=client::where('name',$request->name)->paginate(10);
+            //   if($clients->first()){
+            //     return view('client\clients',['clients'=>$clients]);
+            // }else{   
+            //     $clients= client::paginate(10);
+            //     return view('client\err');}}
                
                 
-            else{  $clients= Client::paginate(10);
-                return view('client\clients',['clients'=>$clients]);}
-        // }else{abort(403);}
+            // else{  $clients= Client::paginate(10);
+            //     return view('client\clients',['clients'=>$clients]);}
+        }else{abort(403);}
 
         //here we can see all the clients
       
@@ -74,8 +83,8 @@ class ClientController extends \App\Http\Controllers\Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-    // {if(auth()->user()->hasAnyRole(['admin'])){ 
+    
+    {if(auth()->user()->hasAnyRole(['admin'])){ 
         $client=client::where('id',$id)->first();
 
         if ($client->active){
@@ -92,7 +101,7 @@ class ClientController extends \App\Http\Controllers\Controller
             $clients= client::paginate(10);
             return redirect(url('/clients'));
         }
-    // }else{abort(403);}
+    }else{abort(403);}
   }
 
     /**
@@ -117,12 +126,13 @@ class ClientController extends \App\Http\Controllers\Controller
      */
     public function destroy($id)
     {
-    // {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+    {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
         $client=client::where('id',$id);
         $client->delete();
         $clients= client::paginate(10);
         return redirect(url('/clients'));
-    // }else{abort(403);}
+    }else{abort(403);}
 }
 
+}
 }
