@@ -15,17 +15,34 @@ class OrderController extends \App\Http\Controllers\Controller
     public function index(request $request)
     {
         if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
-            if($request->name)
-            { $orders=Order::where('name',$request->name)->paginate(10);
-              if($orders->first()){
+            $orders=Order::where(function($q) use($request){
+                if($request->name){
+                    $q->where('client_name' ,'like','%' .$request->name .'%');
+                }
+
+            })->get();
+            if( $orders!='[]'){
                 return view('order\orders',['orders'=>$orders]);
-            }else{   
-                $orders= Order::paginate(10);
-                return view('order\err');}}
+        }else{
+            return view('order\err');
+        }
+        
+   
+   
+   
+   
+   
+            // if($request->name)
+            // { $orders=Order::where('name',$request->name)->paginate(10);
+            //   if($orders->first()){
+            //     return view('order\orders',['orders'=>$orders]);
+            // }else{   
+            //     $orders= Order::paginate(10);
+            //     return view('order\err');}}
                
                 
-            else{  $orders= Order::paginate(10);
-                return view('order\orders',['orders'=>$orders]);}
+            // else{  $orders= Order::paginate(10);
+            //     return view('order\orders',['orders'=>$orders]);}
         }else{abort(403);}
 
         //here we can see all the orders

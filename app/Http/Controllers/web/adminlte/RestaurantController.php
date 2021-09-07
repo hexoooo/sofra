@@ -16,17 +16,36 @@ class RestaurantController extends \App\Http\Controllers\Controller
     public function index(request $request)
     {
         if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
-            if($request->name)
-            { $restaurants=Restaurant::where('name',$request->name)->paginate(10);
-              if($restaurants->first()){
+            $restaurants=Restaurant::where(function($q) use($request){
+                if($request->name){
+                    $q->where('name' ,'like','%' .$request->name .'%');
+                }
+
+            })->get();
+            if( $restaurants!='[]'){
                 return view('restaurant\restaurants',['restaurants'=>$restaurants]);
-            }else{   
-                $restaurants= Restaurant::paginate(10);
-                return view('restaurant\err');}}
+        }else{
+            return view('restaurant\err');
+        }
+        
+       
+       
+       
+       
+       
+       
+       
+            // if($request->name)
+            // { $restaurants=Restaurant::where('name',$request->name)->paginate(10);
+            //   if($restaurants->first()){
+            //     return view('restaurant\restaurants',['restaurants'=>$restaurants]);
+            // }else{   
+            //     $restaurants= Restaurant::paginate(10);
+            //     return view('restaurant\err');}}
                
                 
-            else{  $restaurants= Restaurant::paginate(10);
-                return view('restaurant\restaurants',['restaurants'=>$restaurants]);}
+            // else{  $restaurants= Restaurant::paginate(10);
+            //     return view('restaurant\restaurants',['restaurants'=>$restaurants]);}
         }else{abort(403);}
 
         //here we can see all the restaurants

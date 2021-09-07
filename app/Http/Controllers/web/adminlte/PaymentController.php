@@ -16,30 +16,32 @@ class PaymentController extends \App\Http\Controllers\Controller
     {
         //here we can see all the payments
         if(auth()->user()->hasAnyRole(['admin','moderator','writer'])){ 
-        //   $restaurants= Restaurant::get();
-        //   $payments=Restaurant::where(function($q) use($request){
-        //     if($request->name){
-        //         $q->where('name' ,'like','%' .$request->name .'%')->payments()->get();
-        //     }else{
-        //        $payments= Payment::paginate(10);
-        //     }
-
-        // })->payments()->get();
-        // return view('payment\payments',['payments'=>$payments,'restaurants'=>$restaurants]);
-          
+          $restaurants= Restaurant::get();
+          $payments=Payment::where(function($q) use($request){
+            if($request->name){
+                $q->whereHas('restaurant' ,function($q) use($request){
+                   $q->where('name','like','%' .$request->name .'%');
+          });
+        }
+        })->get();
+        if ($payments!='[]'){
+          return view('payment\payments',['payments'=>$payments,'restaurants'=>$restaurants]);}
+    else{
+        return view('payment\err');
+    } 
                     //   $restaurants= Restaurant::get();
           // // \\\\\\\\\\the old way//////////
-          if($request->name){
-           $payments=Restaurant::where('name',$request->name)->first()->payments()->get();
-           $restaurants= Restaurant::get();
-            if($payments->first()){
-              return view('payment\payments',['payments'=>$payments,'restaurants'=>$restaurants]);
-          }else{   
-            return view('payment\err');}
-          }else{
-            $payments= Payment::paginate(10);
-            $restaurants= Restaurant::get();
-            return view('payment\payments',['payments'=>$payments,'restaurants'=>$restaurants]);}
+          // if($request->name){
+          //  $payments=Restaurant::where('name',$request->name)->first()->payments()->get();
+          //  $restaurants= Restaurant::get();
+          //   if($payments->first()){
+          //     return view('payment\payments',['payments'=>$payments,'restaurants'=>$restaurants]);
+          // }else{   
+          //   return view('payment\err');}
+          // }else{
+          //   $payments= Payment::paginate(10);
+          //   $restaurants= Restaurant::get();
+          //   return view('payment\payments',['payments'=>$payments,'restaurants'=>$restaurants]);}
         }else{abort(403);}
     }
     /**

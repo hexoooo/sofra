@@ -15,18 +15,34 @@ class OfferController extends \App\Http\Controllers\Controller
     public function index(request $request)
     {
         if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
+            
+            $restaurants= Restaurant::get();
+            $offers=Offer::where(function($q) use($request){
             if($request->name){
-                $offers=Restaurant::where('name',$request->name)->first()->offers()->get();
-                $restaurants= Restaurant::get();
-                 if($offers->first()){
-                   return view('offer\offers',['offers'=>$offers,'restaurants'=>$restaurants]);
-               }else{   
-                 $offers= Offer::paginate(10);
-                 return view('offer\err');}
-               }else{
-                 $restaurants= Restaurant::get();
-                 $offers= Offer::paginate(10);
-                 return view('offer\offers',['offers'=>$offers,'restaurants'=>$restaurants]);}
+                $q->whereHas('restaurant' ,function($q) use($request){
+                   $q->where('name','like','%' .$request->name .'%');
+          });
+        }
+        })->get();
+        if ($offers!='[]'){
+        return view('offer\offers',['offers'=>$offers,'restaurants'=>$restaurants]);
+    }else{
+        return view('offer\err');
+    }
+            
+            //           \\\\\\\\\\\ old way /////////// 
+            // if($request->name){
+            //     $offers=Restaurant::where('name',$request->name)->first()->offers()->get();
+            //     $restaurants= Restaurant::get();
+            //      if($offers->first()){
+            //        return view('offer\offers',['offers'=>$offers,'restaurants'=>$restaurants]);
+            //    }else{   
+            //      $offers= Offer::paginate(10);
+            //      return view('offer\err');}
+            //    }else{
+            //      $restaurants= Restaurant::get();
+            //      $offers= Offer::paginate(10);
+            //      return view('offer\offers',['offers'=>$offers,'restaurants'=>$restaurants]);}
                 
         }else{abort(403);}
 

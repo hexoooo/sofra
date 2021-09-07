@@ -32,13 +32,13 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">no client match this name</h3>
+          <h3 class="card-title">no restaurant match this name</h3>
         </div>
 
 
         <!-- /.card-body -->
         <div class="card-footer">
-            <a href={{url(route('clients.index'))}} class="btn btn-primary">go back to clients</a> 
+            <a href={{url(route('restaurants.index'))}} class="btn btn-primary">go back to restaurants</a> 
         </div>
         <!-- /.card-footer-->
       </div>
