@@ -111,6 +111,7 @@ class CategoryController extends \App\Http\Controllers\Controller
 
         if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
             $category=category::where('id',$id);
+            $category->first()->restaurants()->detach();
             $category->delete();
             $categories= category::paginate(10);
             return redirect(url('/categories'));

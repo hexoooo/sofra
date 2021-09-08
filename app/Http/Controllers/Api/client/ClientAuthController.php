@@ -10,6 +10,7 @@ use App\Models\Review;
 use App\Models\ContactUs;
 use App\Models\Notification;
 use App\Http\Resources\RegisterResource;
+use App\Http\Resources\NotificationResource;
 use App\Traits\ApiTrait;
 use App\Http\Resources\OrdersResource;
 use App\Http\Resources\PreviousOrderResource;
@@ -55,13 +56,14 @@ class ClientAuthController extends \App\Http\Controllers\Controller
         $Notification=new Notification;
         $Notification->body='you have new order from '. auth()->user()->name;
         $Notification->notificationable_id=$order->restaurant_id;
-        $Notification->notificationable_type='Restaurant';
+        $Notification->notificationable_type='App\Models\Restaurant';
         $Notification->title='new order is here';
         $Notification->order_id=$order->id;
         $Notification->save();
         
        return $this->results(1,'done',new OrdersResource($order)); 
    } 
+
    public function makeReview(Request $request){
        $review= new Review;
        $review->rate=$request->rate;
@@ -72,9 +74,9 @@ class ClientAuthController extends \App\Http\Controllers\Controller
        return $this->results(1,'done');
    }
    public function notification(){
-       $notification= auth()->user()->notifications()->get();
-       dd($notification);
-   }
+    $notification= auth()->user()->notifications()->get();
+    return $this->results('1','done',NotificationResource::collection( $notification)); 
+  }
    public function showInfo(){
        $client=auth()->user();
        return $this->results(1,'done',$client); 

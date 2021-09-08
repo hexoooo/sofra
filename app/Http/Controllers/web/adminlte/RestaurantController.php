@@ -139,6 +139,7 @@ class RestaurantController extends \App\Http\Controllers\Controller
     {
     {if(auth()->user()->hasAnyRole(['admin','moderator'])){ 
         $restaurant=Restaurant::where('id',$id);
+        $restaurant->first()->categories()->detach();
         $restaurant->delete();
         $restaurants= Restaurant::paginate(10);
         return redirect(url('/restaurants'));

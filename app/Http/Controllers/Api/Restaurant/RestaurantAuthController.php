@@ -10,9 +10,11 @@ use App\Models\ContactUs;
 use App\Models\Offer;
 use App\Models\Notification;
 use App\Traits\ApiTrait;
+use App\Traits\UsualTrait;
 use App\Http\Resources\OrdersResource;
 use App\Http\Resources\PreviousOrderResource;
 use App\Http\Resources\CurrentOrderResource;
+use App\Http\Resources\NotificationResource;
 use App\Http\Resources\RestaurantsResource;
 use App\Http\Resources\MenuResource;
 use App\Http\Resources\RegisterResource;
@@ -26,7 +28,7 @@ use App\Http\Resources\SettingsResource;
 class RestaurantAuthController extends  \App\Http\Controllers\Controller
 {
    
-  use ApiTrait;
+  use ApiTrait , UsualTrait;
   public function previousOrder(request $request){
         $orders=auth()->user()->orders()->whereIN('status',['rejected','finished'])->get();
         if($orders->first->id){
@@ -66,6 +68,13 @@ class RestaurantAuthController extends  \App\Http\Controllers\Controller
       if ($orders->id){
           $orders->status='accepted';
           $orders->save(); 
+          $Notification=new Notification;
+          $Notification->body='your order from '. auth()->user()->name .'is accepted';
+          $Notification->notificationable_id=$orders->client_id;
+          $Notification->notificationable_type='App\Models\Client';
+          $Notification->title='your order is accepted';
+          $Notification->order_id=$orders->id;
+          $Notification->save();
          return $this->results(1,'order accepted'); 
          
      }
@@ -127,12 +136,13 @@ public function offers(Request $request){
 } 
 public function notification(){
   $notification= auth()->user()->notifications()->get();
-  dd($notification);
+  return $this->results('1','done',NotificationResource::collection( $notification)); 
 }
 public function addOffer(Request $request){
   $validator=validator()->make($request->all(),[
     "name"=>'required',
     "info"=>'required',
+    "photo"=>'required',
     "start_date"=>'required',
     "end_date"=>'required',
 
@@ -140,8 +150,10 @@ public function addOffer(Request $request){
   if($validator->fails()){
   return $this->results(0,$validator->errors()->first(),$validator->errors());
  }else{
+  $photo=image($request->photo,'App/Public/Images/Offers');
   $offer= new Offer;
   $offer->name=$request->name;
+  $offer->photo=$photo;
   $offer->info=$request->info;
   $offer->start_date=$request->start_date;
   $offer->end_date=$request->end_date;

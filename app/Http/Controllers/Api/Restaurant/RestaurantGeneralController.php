@@ -9,13 +9,13 @@ use Illuminate\Support\Str;
 use Illuminate\Support\facades\hash;
 use Illuminate\Support\facades\Mail;
 use App\Models\NotificationToken;
+use App\Models\Category;
 use App\Mail\RestaurantReset;
 use App\Http\Resources\RegisterResource;
 
 class RestaurantGeneralController extends  \App\Http\Controllers\Controller
 {
     use ApiTrait;
-  
     public function register(Request $request){
         $validator=validator()->make($request->all(),[
             "name"=>'required',
@@ -25,6 +25,7 @@ class RestaurantGeneralController extends  \App\Http\Controllers\Controller
             "region_id"=>'required',
             "delivery_charge"=>'required',
             "minimum_charge"=>'required',
+            "category"=>'required',
         ]
         ) ;
         if ($validator->fails()){
@@ -33,6 +34,9 @@ class RestaurantGeneralController extends  \App\Http\Controllers\Controller
         $request->merge(['password'=>bcrypt($request->password)]);
         $restaurant=Restaurant::create($request->all());
         $restaurant->api_token = str::random(60);
+        foreach($request->category as $category){
+           $restaurant->categories()->attach(Category::where('name',$category)->pluck('id'));
+        }
         $restaurant->save();
         $Notification=new NotificationToken;
         $Notification->token = str::random(60);
