@@ -40,7 +40,7 @@ admin control panel
           </div>
           
           <div class="info-box">
-            <span class="info-box-icon bg-warning"><i class="fas fa-bullhorn"></i></span>
+            <span class="info-box-icon bg-warning"><i class="fas fa-dollar-sign"></i></span>
     
             <div class="info-box-content">
               <span class="info-box-text"><a href="/payments">payments</a></span>
@@ -52,7 +52,7 @@ admin control panel
           </div>
          
           <div class="info-box">
-            <span class="info-box-icon bg-warning"><i class="fas fa-door-open"></i></span>
+            <span class="info-box-icon bg-warning"><i class="fas fa-percentage"></i></span>
     
             <div class="info-box-content">
               <span class="info-box-text"><a href='/offers'>offers</a></span>
@@ -63,7 +63,7 @@ admin control panel
             <!-- /.info-box-content -->
           </div>
           <div class="info-box">
-            <span class="info-box-icon bg-warning"><i class="fas fa-door-open"></i></span>
+            <span class="info-box-icon bg-warning"><i class="fas fa-shopping-bag"></i></span>
     
             <div class="info-box-content">
               <span class="info-box-text"><a href='/orders'>orders</a></span>
@@ -88,7 +88,7 @@ admin control panel
             <!-- /.info-box-content -->
           </div>
           <div class="info-box">
-            <span class="info-box-icon bg-danger"><i class="fas fa-tint"></i></span>
+            <span class="info-box-icon bg-danger"><i class="fas fa-utensils"></i></span>
     
             <div class="info-box-content">
               <span class="info-box-text"><a href="/restaurants">restaurants</a></span>
@@ -109,7 +109,7 @@ admin control panel
           </div>
           
           <div class="info-box">
-            <span class="info-box-icon bg-danger"><i class="fas fa-lock"></i></i></span>
+            <span class="info-box-icon bg-danger"><i class="fas fa-tasks"></i></i></span>
     
             <div class="info-box-content">
               <span class="info-box-text"><a href='/roles'>roles</a></span>
@@ -158,7 +158,7 @@ admin control panel
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-12">
           <div class="info-box">
-            <span class="info-box-icon bg-success"><i class="far fa-star"></i></span>
+            <span class="info-box-icon bg-success"><i class="fas fa-list"></i></span>
     
             <div class="info-box-content">
               <span class="info-box-text"><a href="categories">categories</a></span>
